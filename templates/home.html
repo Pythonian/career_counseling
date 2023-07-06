@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+<section class="bg-primary py-5">
+    <div class="container my-lg-5">
+        <div class="row gx-5 align-items-center justify-content-center">
+            <div class="col-lg-7">
+                <div class="my-5">
+                    <span class="bg-white rounded-5 px-3 py-2"><i
+                            class="fa-solid fa-thumbs-up text-primary-emphasis"></i> Discover Your Path to
+                        Success!</span>
+                    <h2 class="display-5 fw-bolder text-white mb-3 mt-4">
+                        Unlock Your Potential
+                        <span class="text-primary-emphasis d-block">with our Career Counselor</span>
+                    </h2>
+                    <p class="lead fw-normal text-white mb-4">Discover your future with our Career Counselor Web App.
+                        Analyzing your academic performance from JSS 1-3, we provide personalized career recommendations
+                        and guide you towards the right path.</p>
+                    <a class="btn btn-outline-light px-3 py-2 me-sm-3" href="#">Start the Career Assessment <i
+                            class="fa-solid fa-arrow-right ps-1"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <img src="{% static 'images/counselor.svg' %}" class="w-100" alt="career-counselor">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light py-5">
+    <div class="container my-lg-5">
+        <div class="text-center mb-lg-5">
+            <h5 class="text-primary mb-3">Key Features</h5>
+            <h3>Empowering Career Exploration</h3>
+        </div>
+        <div class="row g-4">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body pb-4 pt-5 px-5 text-center">
+                        <div class="mb-4">
+                            <i class="fa-solid fa-arrows-to-eye text-primary-emphasis fa-3x"></i>
+                        </div>
+                        <span class="fs-5 d-block mb-2">Comprehensive Career Assessment</span>
+                        <p class="text-body-secondary">Our assessment evaluates your academic performance from JSS 1-3
+                            and identifies career fields aligned with your strengths.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body pb-4 pt-5 px-5 text-center">
+                        <div class="mb-4">
+                            <i class="fa-solid fa-briefcase text-primary-emphasis fa-3x"></i>
+                        </div>
+                        <span class="fs-5 d-block mb-2">Explore Diverse Career Paths</span>
+                        <p class="text-body-secondary">Our web app provides in-depth information about various career
+                            paths, enabling you to make informed decisions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card border-0 shadow h-100">
+                    <div class="card-body pb-4 pt-5 px-5 text-center">
+                        <div class="mb-4">
+                            <i class="fa-solid fa-square-poll-vertical text-primary-emphasis fa-3x"></i>
+                        </div>
+                        <span class="fs-5 d-block mb-2">Tailored Recommendations for You</span>
+                        <p class="text-body-secondary">Based on your assessment results, our web app generates career
+                            recommendations that match your academic performance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-white py-5">
+    <div class="container my-lg-5">
+        <div class="text-center mb-lg-5">
+            <h5 class="text-primary mb-3">How It Works</h5>
+            <h3>Navigate with Confidence</h3>
+        </div>
+        <div class="row d-flex align-items-center mb-5 mx-5">
+            <div class="col">
+                <div class="d-flex" data-aos="fade-up">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-1 fa-2x text-primary-emphasis"></i>
+                    </div>
+
+                    <div class="flex-grow-1 ms-4">
+                        <h5 class="text-primary">Sign Up or Log In</h5>
+                        <p class="lead">Create an account or log in to access our Career Counselor Web App and unlock your career potential.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col text-end">
+                <img src="{% static 'images/step-1.svg' %}" alt="how-it-works" class="img-fluid w-75">
+            </div>
+        </div>
+        <div class="row d-flex align-items-center mb-5 mx-5">
+            <div class="col">
+                <img src="{% static 'images/step-2.svg' %}" alt="how-it-works" class="img-fluid w-50">
+            </div>
+            <div class="col">
+                <div class="d-flex" data-aos="fade-up">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-2 fa-2x text-primary-emphasis"></i>
+                    </div>
+
+                    <div class="flex-grow-1 ms-4">
+                        <h5 class="text-primary">Complete the Assessment</h5>
+                        <p class="lead">Provide us with your academic performance details from JSS 1-3, including grades and subjects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex align-items-center mx-5">
+            <div class="col">
+                <div class="d-flex" data-aos="fade-up">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-3 fa-2x text-primary-emphasis"></i>
+                    </div>
+
+                    <div class="flex-grow-1 ms-4">
+                        <h5 class="text-primary">Get Personalized Recommendations</h5>
+                        <p class="lead">Based on your assessment results, our web app generates career recommendations tailored to your academic performance</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col text-end">
+                <img src="{% static 'images/step-3.svg' %}" alt="how-it-works" class="img-fluid w-75">
+            </div>
+        </div>
+        
+    </div>
+</section>
+{% endblock content %}
