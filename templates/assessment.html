@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+{% load template_tags %}
+
+{% block title %}Assessment Score{% endblock title %}
+
+{% block content %}
+
+
+<section class="py-3 bg-light">
+    <div class="container my-3">
+        <h2 class="mb-4">{{ student.name }} - Assessment Scores</h2>
+
+        <div class="row">
+            <div class="col-lg-8">
+                {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">{{ grade_level.name }}</h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr class="ligth">
+                                        <th>Term</th>
+                                        <th>Subject</th>
+                                        <th>Continuous Assessment</th>
+                                        <th>Exam</th>
+                                        <th>Total Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subject, scores in subject_scores.items %}
+                                    {% for score in scores %}
+                                    <tr>
+                                        <td>{{ score.session_term.name }}</td>
+                                        <td>{{ score.subject.name }}</td>
+                                        <td>{{ score.continuous_assessment }}</td>
+                                        <td>{{ score.exam }}</td>
+                                        <td>{{ score.total_score }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow">
+
+                    <div class="p-4">
+                        <h6 class="fw-bold mb-3">Overall Subject Totals</h6>
+                        {% for subject_total in subject_totals %}
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="flex-shrink-0">
+                                <i class="fa-solid fa-graduation-cap text-primary"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1 text-body-secondary">{{ subject_total.total_score }}</h6>
+                                <p class="mb-0">{{ subject_total.subject__name }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Chart</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="chart-{{ grade_level.name }}"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <table>
+    <tr>
+        <th>Grade Level</th>
+        <th>Session Term</th>
+        <th>Subject</th>
+        <th>Continuous Assessment</th>
+        <th>Exam</th>
+        <th>Total Score</th>
+    </tr>
+    {% for score in assessment_scores %}
+    <tr>
+        <td>{{ score.grade_level__name }}</td>
+        <td>{{ score.session_term__name }}</td>
+        <td>{{ score.subject__name }}</td>
+        <td>{{ score.continuous_assessment_total }}</td>
+        <td>{{ score.exam_total }}</td>
+        <td>{{ score.total_score }}</td>
+    </tr>
+    {% endfor %}
+</table> -->
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
+    var ctx = document.getElementById("chart-{{ grade_level.name }}").getContext("2d");
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for subject, scores in subject_scores.items %}
+                        "{{ subject.name }}",
+                    {% endfor %}
+                ],
+        datasets: [{
+            label: 'Total Score',
+            data: [
+                {% for subject, scores in subject_scores.items %}
+                            {{ scores| sum_total_scores }},
+        {% endfor %}
+    ],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+                }]
+            },
+        options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+        });
+    {% endfor %}
+</script>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +10,26 @@
     <link rel="stylesheet" href="{% static 'styles/fontawesome/all.min.css' %}">
     <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet">
 </head>
+
 <body class="d-flex flex-column h-100">
 
     <header class="flex-shrink-0">
         <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
             <div class="container">
-                <a class="navbar-brand fw-bold text-white" href="{% url 'home' %}"><i class="fa-solid fa-graduation-cap text-primary-emphasis"></i> CareerCompass</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <a class="navbar-brand fw-bold text-white" href="{% url 'home' %}"><i
+                        class="fa-solid fa-graduation-cap text-primary-emphasis"></i> CareerCompass</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span
+                        class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link text-white" href="{% url 'home' %}">Home</a></li>
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2">
-                        <a href="#" class="btn btn-outline-light me-3 fw-bold"><i class="fa-solid fa-right-to-bracket me-1"></i> Log In</a>
-                        <a href="#" class="btn btn-primary 1text-white fw-bold"><i class="fa-solid fa-user-plus me-1"></i> Sign Up</a>
+                        <a data-bs-target="#enterCode" data-bs-toggle="modal"
+                            class="btn btn-outline-light me-3 fw-bold"><i class="fa-solid fa-right-to-bracket me-1"></i>
+                            Enter Assessment Code</a>
                     </ul>
                 </div>
             </div>
@@ -30,31 +37,60 @@
     </header>
 
     <main>
-        {% block content %}{% endblock content %} 
+        {% block content %}{% endblock content %}
     </main>
 
     <footer class="bg-primary py-4 mt-auto">
         <div class="container">
-            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="row align-items-center justify-content-between flex-column flex-sm-row fw-bolder">
                 <div class="col-auto">
                     <div class="small m-0 text-white">&copy; {% now "Y" %} &bull; All rights reserved.</div>
                 </div>
                 <div class="col-auto">
                     <span class="text-white mx-1">&middot;</span>
-                    <span class="text-white fw-bolder small">Final Year Project</span>
+                    <span class="text-white small">Final Year Project</span>
                     <span class="text-white mx-1">&middot;</span>
                 </div>
             </div>
         </div>
     </footer>
 
+    <div class="modal fade" id="enterCode" tabindex="-1" role="dialog" aria-labelledby="enterCodeLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="enterCodeLabel">Enter Assessment Code</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-outline-dark" type="button"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-sm btn-primary"><i
+                                class="fas me-1 fa-right-from-bracket"></i>
+                            Get Access</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="{% static 'scripts/bootstrap.bundle.min.js' %}"></script>
+    <!-- Add this in your template head section -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% block script %}{% endblock %}
     <script>
-        window.onload = (event)=> {
-         let myAlert = document.querySelector('.toast');
-         let bsAlert = new bootstrap.Toast(myAlert);
-         bsAlert.show();
+        window.onload = (event) => {
+            let myAlert = document.querySelector('.toast');
+            let bsAlert = new bootstrap.Toast(myAlert);
+            bsAlert.show();
         }
     </script>
 </body>
+
 </html>
