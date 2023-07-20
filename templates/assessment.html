@@ -6,12 +6,11 @@
 
 {% block content %}
 
-
 <section class="py-3 bg-light">
     <div class="container my-3">
         <h2 class="mb-4">{{ student.name }} - Assessment Scores</h2>
 
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-lg-8">
                 {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
                 <div class="card shadow mb-4">
@@ -50,8 +49,33 @@
                 {% endfor %}
             </div>
             <div class="col-lg-4">
+                <div
+                    class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-3">
+                    <div class="p-4">
+                        <h6>Best Performing Subject</h6>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="flex-shrink-0">
+                                <i class="fa-solid fa-star text-primary"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1 text-body-secondary">Score</h6>
+                                <p class="mb-0">{{ highest_subject.total_score }}</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center mt-4">
+                            <div class="flex-shrink-0">
+                                <i class="fa-solid fa-person-chalkboard text-primary"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h6 class="mb-1 text-body-secondary">Name</h6>
+                                <p class="mb-0">{{ highest_subject.subject__name }}</p>
+                            </div>
+                        </div>
+                        <!-- <p>{{ highest_subject.total_score }}</p>
+                        <p>{{ highest_subject.subject__name }}</p> -->
+                    </div>
+                </div>
                 <div class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow">
-
                     <div class="p-4">
                         <h6 class="fw-bold mb-3">Overall Subject Totals</h6>
                         {% for subject_total in subject_totals %}
@@ -69,21 +93,33 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Chart Growth</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="subject-growth-chart" width="800" height="400"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
         <div class="row">
             <div class="col-lg-12">
                 {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Chart</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{ grade_level.name }}</h6>
                     </div>
-                    <!-- Card Body -->
                     <div class="card-body">
                         <div class="chart-area">
                             <canvas id="chart-{{ grade_level.name }}"></canvas>
                         </div>
                     </div>
                 </div>
-
                 {% endfor %}
             </div>
         </div>
@@ -114,6 +150,69 @@
 {% endblock content %}
 
 {% block script %}
+<script>
+    // Extract the data for the chart
+    var chartData = {
+        labels: [],
+        datasets: []
+    };
+
+    // Loop through the assessment scores to get subject growth data
+    {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
+    {% for subject, scores in subject_scores.items %}
+    chartData.labels.push('{{ grade_level.name }} - {{ subject.name }}');
+    subjectScores = {
+        label: '{{ subject.name }}',
+        data: [],
+        fill: false,
+        borderColor: getRandomColor(), // Generate a random color for each subject
+        borderWidth: 2
+    };
+    {% for score in scores %}
+    subjectScores.data.push({{ score.total_score }});
+    {% endfor %}
+    chartData.datasets.push(subjectScores);
+    {% endfor %}
+    {% endfor %}
+
+    // Function to generate a random color
+    function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    // Create the chart
+    var ctx = document.getElementById("subject-growth-chart").getContext("2d");
+    var lineChart = new Chart(ctx, {
+        type: "line",
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: "Grade Level - Subject"
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: "Total Score"
+                    }
+                }
+            }
+        }
+    });
+</script>
+
 <script>
     {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
     var ctx = document.getElementById("chart-{{ grade_level.name }}").getContext("2d");

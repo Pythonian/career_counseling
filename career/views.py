@@ -1,7 +1,7 @@
 from django import forms
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.db.models import Sum
+from django.db.models import Sum, Max
 from itertools import groupby
 from .models import Student, AssessmentScore
 
@@ -81,6 +81,15 @@ def assessment(request):
             subject, []
         ).extend(group)
 
+    # Get the Subject with the highest total score
+    highest_subject = assessment_scores_by_grade_subject
+    if highest_subject:
+        highest_subject = max(
+            subject_totals, key=lambda subject: subject["total_score"]
+        )
+    else:
+        highest_subject = None
+
     template = "assessment.html"
     context = {
         "student": student,
@@ -88,6 +97,7 @@ def assessment(request):
         "assessment_scores2": assessment_scores2,
         "assessment_scores_by_grade_subject": assessment_scores_by_grade_subject,
         "subject_totals": subject_totals,
+        "highest_subject": highest_subject,
     }
 
     return render(request, template, context)
