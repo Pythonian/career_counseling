@@ -17,7 +17,7 @@ class AssessmentScoreInline(admin.TabularInline):
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     inlines = [AssessmentScoreInline]
-    list_display = ["name"]
+    list_display = ["name", "entry_code"]
 
 
 @admin.register(Subject)

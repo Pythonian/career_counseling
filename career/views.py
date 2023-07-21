@@ -1,32 +1,24 @@
-from django import forms
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.db.models import Sum, Max
+from django.db.models import Sum, Avg
 from itertools import groupby
-from .models import Student, AssessmentScore
-
-
-class AccessForm(forms.Form):
-    entry_code = forms.CharField(max_length=10)
-
-    def clean_entry_code(self):
-        entry_code = self.cleaned_data.get("entry_code")
-        try:
-            Student.objects.get(entry_code=entry_code)
-        except Student.DoesNotExist:
-            raise forms.ValidationError("Invalid code")
-        return entry_code
+from django.views.decorators.http import require_POST
+from .models import Student, AssessmentScore, Subject
+from .forms import AccessForm
 
 
 def home(request):
     if request.method == "POST":
         form = AccessForm(request.POST)
         if form.is_valid():
-            code = form.cleaned_data.get("entry_code")
-            request.session["code"] = code
+            entry_code = form.cleaned_data.get("entry_code")
+            request.session["entry_code"] = entry_code
+            messages.success(request, "You've been granted access to your Dashboard")
             return redirect("assessment")
         else:
-            messages.warning(request, "Invalid access code.")
+            messages.warning(
+                request, "Invalid access code. Please crosscheck and try again"
+            )
     else:
         form = AccessForm()
 
@@ -38,14 +30,25 @@ def home(request):
     return render(request, template, context)
 
 
+@require_POST
+def end_session(request):
+    # Delete the 'code' session variable if it exists
+    if "entry_code" in request.session:
+        del request.session["entry_code"]
+
+    messages.success(request, "Your session has ended. See you next time.")
+    return redirect("home")
+
+
 def assessment(request):
-    code = request.session.get("code")
+    entry_code = request.session.get("entry_code")
     try:
-        student = Student.objects.get(entry_code=code)
+        student = Student.objects.get(entry_code=entry_code)
     except Student.DoesNotExist:
         return redirect("home")
 
-    # Calculate the total scores for the student's subjects in each grade level and session term
+    # Calculate the total scores for the student's subjects
+    # in each grade level and session term
     assessment_scores = (
         AssessmentScore.objects.filter(student=student)
         .values("grade_level__name", "session_term__name", "subject__name")
@@ -69,12 +72,12 @@ def assessment(request):
     )
 
     # Retrieve all assessment scores for the student
-    assessment_scores2 = AssessmentScore.objects.filter(student=student)
+    student_assessment_scores = AssessmentScore.objects.filter(student=student)
 
     # Group the assessment scores by grade level and subject
     assessment_scores_by_grade_subject = {}
     for key, group in groupby(
-        assessment_scores2, key=lambda x: (x.grade_level, x.subject)
+        student_assessment_scores, key=lambda x: (x.grade_level, x.subject)
     ):
         grade_level, subject = key
         assessment_scores_by_grade_subject.setdefault(grade_level, {}).setdefault(
@@ -85,19 +88,31 @@ def assessment(request):
     highest_subject = assessment_scores_by_grade_subject
     if highest_subject:
         highest_subject = max(
-            subject_totals, key=lambda subject: subject["total_score"]
+            subject_totals,
+            key=lambda subject: subject["total_score"],
         )
+        highest_subject["subject_field"] = Subject.objects.get(
+            name=highest_subject["subject__name"]
+        ).subject_field
     else:
         highest_subject = None
+
+    # Calculate the average total score for each subject across
+    # all grade levels and session terms
+    subject_average_scores = (
+        assessment_scores.values("subject__name")
+        .annotate(avg_total_score=Avg("total_score"))
+        .order_by("subject__name")
+    )
 
     template = "assessment.html"
     context = {
         "student": student,
         "assessment_scores": assessment_scores,
-        "assessment_scores2": assessment_scores2,
         "assessment_scores_by_grade_subject": assessment_scores_by_grade_subject,
         "subject_totals": subject_totals,
         "highest_subject": highest_subject,
+        "subject_average_scores": subject_average_scores,
     }
 
     return render(request, template, context)

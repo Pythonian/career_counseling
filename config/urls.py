@@ -19,11 +19,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from career.views import home, assessment
+from career.views import home, assessment, end_session
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("assessment/", assessment, name="assessment"),
+    path("logout/", end_session, name="end_session"),
     path("", home, name="home"),
 ]
 
