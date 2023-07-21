@@ -25,7 +25,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-primary shadow-sm">
             <div class="container">
                 <a class="navbar-brand fw-bold text-white" href="{% url 'home' %}"><i
-                        class="fa-solid fa-graduation-cap text-primary-emphasis"></i> CareerCompass</a>
+                        class="fa-solid fa-graduation-cap text-white"></i> CareerCompass</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span
@@ -46,7 +46,7 @@
                         {% else %}
                         <a data-bs-target="#enterCode" data-bs-toggle="modal"
                             class="btn btn-outline-light me-3 fw-bold"><i class="fa-solid fa-right-to-bracket me-1"></i>
-                            Enter Assessment Code</a>
+                            Enter Access Code</a>
                         {% endif %}
                     </ul>
                 </div>
@@ -78,7 +78,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="enterCodeLabel">Enter Assessment Code</h5>
+                    <h5 class="modal-title" id="enterCodeLabel">Enter Access Code</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" action="">
