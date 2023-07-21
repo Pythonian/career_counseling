@@ -14,7 +14,7 @@ fake = Faker()
 
 
 def create_grade_levels():
-    grade_levels = ["JS1", "JS2", "JS3"]
+    grade_levels = ["JSS1", "JSS2", "JSS3"]
     for level in grade_levels:
         GradeLevel.objects.create(name=level)
 
@@ -27,10 +27,15 @@ def create_session_terms():
 
 def create_subjects():
     subjects = {
-        "Science": [
+        "General": [
             "Mathematics",
+            "English",
+            "Igbo",
+            "Christian Religious Studies",
+        ],
+        "Science": [
             "Basic Science",
-            "Information and Communications Technology",
+            "Information Technology",
             "Agricultural Science",
         ],
         "Technical": [
@@ -40,14 +45,10 @@ def create_subjects():
             "Home Economics",
         ],
         "Humanities": [
-            "English",
             "Social Studies",
             "Civic Education",
-            "Igbo",
             "History",
             "Creative and Cultural Arts",
-            "Christian Religious Studies",
-            "Islamic Religious Studies",
         ],
         "Commercial": ["Business Studies"],
     }
@@ -59,7 +60,7 @@ def create_subjects():
 
 
 def create_students():
-    for _ in range(2):
+    for _ in range(3):
         Student.objects.create(
             name=fake.name(), entry_code=fake.unique.random_number(digits=7)
         )

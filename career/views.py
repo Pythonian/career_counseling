@@ -45,6 +45,8 @@ def assessment(request):
     try:
         student = Student.objects.get(entry_code=entry_code)
     except Student.DoesNotExist:
+        messages.warning(request, "Your entry code session is invalid.")
+        del request.session["entry_code"]
         return redirect("home")
 
     # Calculate the total scores for the student's subjects
@@ -68,7 +70,7 @@ def assessment(request):
     subject_totals = (
         assessment_scores.values("subject__name")
         .annotate(total_score=Sum("total_score"))
-        .order_by("subject__name")
+        .order_by("-total_score", "subject__name")
     )
 
     # Retrieve all assessment scores for the student
