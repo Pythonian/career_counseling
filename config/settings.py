@@ -143,3 +143,5 @@ MESSAGE_TAGS = {
 LOGOUT_REDIRECT_URL = 'home'
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

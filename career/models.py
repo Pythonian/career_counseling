@@ -44,6 +44,7 @@ class Discipline(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=50)
+    email = models.EmailField()
     entry_code = models.CharField(max_length=7, unique=True)
 
     def __str__(self):
