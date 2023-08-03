@@ -33,6 +33,15 @@ class Subject(models.Model):
         return self.name
 
 
+class Discipline(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    subject_field = models.ForeignKey(SubjectField, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.name
+
+
 class Student(models.Model):
     name = models.CharField(max_length=50)
     entry_code = models.CharField(max_length=7, unique=True)

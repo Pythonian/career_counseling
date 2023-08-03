@@ -11,9 +11,11 @@
         <h4 class="mb-4">Welcome, {{ student.name }} <i class="fa-solid fa-smile ms-1 text-primary-emphasis"></i></h4>
         <div class="row mb-5">
             <div class="col-lg-12">
-                <div class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-4">
+                <div
+                    class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-4">
                     <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-chart-line me-1"></i> My Subject Performance</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-chart-line me-1"></i> My
+                            Subject Performance</h6>
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
@@ -25,11 +27,69 @@
         </div>
 
         <div class="row mb-5">
+            <div class="col-lg-12">
+                <div
+                    class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-4">
+                    <div class="card-header border-0 py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary"><i
+                                class="fa-solid fa-magic-wand-sparkles me-1"></i> Career Prediction</h6>
+                    </div>
+                    <div class="card-body px-4">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <h6 class="text-primary-emphasis mb-3">Most Suitable Career Field</h6>
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fa-solid fa-book text-primary"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-1 text-body-secondary">Suggested Field</h6>
+                                        <p class="mb-0">{{ most_common_subject_field.name }}</p>
+                                    </div>
+                                </div>
+
+                                <h6>How did we arrive at this?</h6>
+                                <small>We computed your top 3 subjects based on highest scores, and got the career field most common amongst the three.</small>
+                                {% for subject in top_subjects %}
+                                <div class="d-flex align-items-center my-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fa-solid fa-circle text-primary"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-1 text-body-secondary">{{ subject.total_score }}</h6>
+                                        <p class="mb-0">{{ subject.subject__name }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-7">
+                                <h6>Related Disciplines for your Predicted Field of Study</h6>
+                                {% for discipline in related_disciplines %}
+                                <div class="d-flex align-items-center my-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fa-solid fa-briefcase text-primary"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-1 text-body-secondary">{{ discipline.name }}</h6>
+                                        <p class="mb-0">{{ discipline.description }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
             <div class="col-lg-8">
                 {% for grade_level, subject_scores in assessment_scores_by_grade_subject.items %}
-                <div class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-4">
+                <div
+                    class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-4">
                     <div class="card-header border-0 py-3">
-                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-chart-simple me-1"></i> My {{ grade_level.name }} Grades</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-chart-simple me-1"></i> My
+                            {{ grade_level.name }} Grades</h6>
                     </div>
                     <div class="card-body">
                         <div class="chart-area">
@@ -43,7 +103,8 @@
                 <div
                     class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-3">
                     <div class="card-header border-0 py-3">
-                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-ranking-star me-1"></i> Best Performing Subject</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-ranking-star me-1"></i> Best
+                            Performing Subject</h6>
                     </div>
                     <div class="card-body px-4">
                         <div class="d-flex align-items-center mb-4">
@@ -75,9 +136,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-3">
+                <div
+                    class="card border border-primary border-3 border-start-0 border-end-0 border-bottom-0 shadow mb-3">
                     <div class="card-header border-0 py-3">
-                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-graduation-cap me-1"></i> Overall Subject Totals</h6>
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fa-solid fa-graduation-cap me-1"></i>
+                            Overall Subject Totals</h6>
                     </div>
                     <div class="card-body px-4">
                         {% for subject_total in subject_totals %}
@@ -105,13 +168,13 @@
 <script>
     // Get the data for the line chart from the Django context
     var subjectData = {
-        labels: [{% for subject_score in subject_average_scores %}'{{ subject_score.subject__name }}',{% endfor %}],
-        datasets: [
-            {
-                label: 'Average Grade',
-                data: [{% for subject_score in subject_average_scores %}{{ subject_score.avg_total_score }},{% endfor %}],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        labels: [{% for subject_score in subject_average_scores %}'{{ subject_score.subject__name }}', {% endfor %}],
+    datasets: [
+        {
+            label: 'Average Grade',
+            data: [{% for subject_score in subject_average_scores %}{{ subject_score.avg_total_score }}, {% endfor %}],
+        borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 2,
             },
         ]
@@ -153,7 +216,7 @@
             label: 'Total Score',
             data: [
                 {% for subject, scores in subject_scores.items %}
-                            {{ scores|sum_total_scores }},
+                            {{ scores| sum_total_scores }},
         {% endfor %}
     ],
         backgroundColor: 'rgba(75, 192, 192, 0.2)',

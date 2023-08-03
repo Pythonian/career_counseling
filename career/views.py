@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Sum, Avg
 from itertools import groupby
 from django.views.decorators.http import require_POST
-from .models import Student, AssessmentScore, Subject
+from .models import Student, AssessmentScore, Subject, Discipline
 from .forms import AccessForm
 
 
@@ -42,12 +42,7 @@ def end_session(request):
 
 def assessment(request):
     entry_code = request.session.get("entry_code")
-    try:
-        student = Student.objects.get(entry_code=entry_code)
-    except Student.DoesNotExist:
-        messages.warning(request, "Your entry code session is invalid.")
-        del request.session["entry_code"]
-        return redirect("home")
+    student = get_object_or_404(Student, entry_code=entry_code)
 
     # Calculate the total scores for the student's subjects
     # in each grade level and session term
@@ -107,6 +102,31 @@ def assessment(request):
         .order_by("subject__name")
     )
 
+    # List the top 3 subjects based on the highest scores (exclude "General")
+    top_subjects = (
+        AssessmentScore.objects.filter(student=student)
+        .exclude(subject__subject_field__name="General")
+        .values("subject__name")
+        .annotate(total_score=Sum("continuous_assessment") + Sum("exam"))
+        .order_by("-total_score")[:3]
+    )
+
+    # Get the Subject field of these subjects
+    subject_fields_of_top_subjects = [
+        Subject.objects.get(name=subj["subject__name"]).subject_field
+        for subj in top_subjects
+    ]
+
+    # Get the Subject field which appears the most
+    most_common_subject_field = max(
+        set(subject_fields_of_top_subjects),
+        key=subject_fields_of_top_subjects.count
+    )
+    
+    # List the related disciplines based on suggested Subject field
+    related_disciplines = Discipline.objects.filter(
+        subject_field=most_common_subject_field)
+
     template = "assessment.html"
     context = {
         "student": student,
@@ -115,6 +135,9 @@ def assessment(request):
         "subject_totals": subject_totals,
         "highest_subject": highest_subject,
         "subject_average_scores": subject_average_scores,
+        "top_subjects": top_subjects,
+        "most_common_subject_field": most_common_subject_field,
+        "related_disciplines": related_disciplines,
     }
 
     return render(request, template, context)

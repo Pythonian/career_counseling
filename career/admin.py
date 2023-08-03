@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from career.models import (
     AssessmentScore,
+    Discipline,
     GradeLevel,
     SessionTerm,
     Student,
@@ -22,6 +23,12 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
+    list_display = ["name", "subject_field"]
+    list_filter = ["subject_field"]
+
+
+@admin.register(Discipline)
+class DisciplineAdmin(admin.ModelAdmin):
     list_display = ["name", "subject_field"]
 
 
