@@ -112,7 +112,9 @@ def create_disciplines():
 def create_students():
     for _ in range(3):
         Student.objects.create(
-            name=fake.name(), entry_code=fake.unique.random_number(digits=7)
+            name=fake.name(),
+            entry_code=fake.unique.random_number(digits=7),
+            email=fake.email()
         )
 
 
