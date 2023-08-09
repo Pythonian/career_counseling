@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.core.mail import send_mail
+from django.contrib.auth.models import Group
 
 from career.models import (
     AssessmentScore,
@@ -50,3 +51,4 @@ class DisciplineAdmin(admin.ModelAdmin):
 admin.site.register(SubjectField)
 admin.site.register(GradeLevel)
 admin.site.register(SessionTerm)
+admin.site.unregister(Group)
