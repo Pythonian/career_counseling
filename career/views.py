@@ -1,25 +1,42 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.db.models import Sum, Avg
 from itertools import groupby
+
+from django.contrib import messages
+from django.db.models import Avg, Sum
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-from .models import Student, AssessmentScore, Subject, Discipline
+
 from .forms import AccessForm
+from .models import AssessmentScore, Discipline, Student, Subject
 
 
 def home(request):
+    """
+    View function for the home page.
+
+    Handles access form submission, validation, and redirection.
+    """
+    # If the HTTP request method is a Post request
     if request.method == "POST":
+        # Pass in the Post data into the AccessForm
         form = AccessForm(request.POST)
+        # If the form has been certified to be valid, no errors
         if form.is_valid():
+            # Get the entered entry code from the form
             entry_code = form.cleaned_data.get("entry_code")
+
+            # Store the entry code in the session
             request.session["entry_code"] = entry_code
+
+            # Display a success message and redirect to the assessment page
             messages.success(request, "You've been granted access to your Dashboard")
             return redirect("assessment")
         else:
+            # Display a warning message for invalid access code
             messages.warning(
                 request, "Invalid access code. Please crosscheck and try again"
             )
     else:
+        # Create a new AccessForm instance for GET requests
         form = AccessForm()
 
     template = "home.html"
@@ -32,16 +49,31 @@ def home(request):
 
 @require_POST
 def end_session(request):
-    # Delete the 'code' session variable if it exists
+    """
+    View function for ending a user's session.
+
+    Deletes the 'entry_code' session variable if it exists
+    and displays a success message.
+    """
     if "entry_code" in request.session:
+        # Delete the 'entry_code' session variable
         del request.session["entry_code"]
 
+    # Display a success message and redirect to the home page
     messages.success(request, "Your session has ended. See you next time.")
     return redirect("home")
 
 
 def assessment(request):
+    """
+    View function for the assessment page.
+
+    Retrieves assessment scores and calculates various statistics for the student.
+    """
+    # Get the entry code from the session
     entry_code = request.session.get("entry_code")
+
+    # Retrieve the student based on the entry code
     student = get_object_or_404(Student, entry_code=entry_code)
 
     # Calculate the total scores for the student's subjects
@@ -119,13 +151,13 @@ def assessment(request):
 
     # Get the Subject field which appears the most
     most_common_subject_field = max(
-        set(subject_fields_of_top_subjects),
-        key=subject_fields_of_top_subjects.count
+        set(subject_fields_of_top_subjects), key=subject_fields_of_top_subjects.count
     )
-    
+
     # List the related disciplines based on suggested Subject field
     related_disciplines = Discipline.objects.filter(
-        subject_field=most_common_subject_field)
+        subject_field=most_common_subject_field
+    )
 
     template = "assessment.html"
     context = {
