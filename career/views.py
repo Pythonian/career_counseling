@@ -149,10 +149,12 @@ def assessment(request):
         for subj in top_subjects
     ]
 
-    # Get the Subject field which appears the most
-    most_common_subject_field = max(
-        set(subject_fields_of_top_subjects), key=subject_fields_of_top_subjects.count
-    )
+    # Calculate the most common subject field if top_subjects is not empty
+    most_common_subject_field = None
+    if subject_fields_of_top_subjects:
+        most_common_subject_field = max(
+            set(subject_fields_of_top_subjects), key=subject_fields_of_top_subjects.count
+        )
 
     # List the related disciplines based on suggested Subject field
     related_disciplines = Discipline.objects.filter(
