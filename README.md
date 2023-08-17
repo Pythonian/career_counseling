@@ -45,7 +45,7 @@ _Follow the steps below to get the program working on your system locally. These
    _Note: Use `admin` for both the `username` and `password`, and skip entering the `email`. Also type `y` to bypass Password validation._
 8. Populate the database with fake data (Optional)
    ```sh
-   python manage.py populate_db
+   python manage.py populate_db 5
    ```
 9. Run the development server
    ```sh
