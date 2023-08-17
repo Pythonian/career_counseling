@@ -20,7 +20,7 @@ def create_grade_levels():
     """
     grade_levels = ["JSS1", "JSS2", "JSS3"]
     for level in grade_levels:
-        GradeLevel.objects.create(name=level)
+        GradeLevel.objects.get_or_create(name=level)
 
 
 def create_session_terms():
@@ -29,7 +29,7 @@ def create_session_terms():
     """
     session_terms = ["First Term", "Second Term", "Third Term"]
     for term in session_terms:
-        SessionTerm.objects.create(name=term)
+        SessionTerm.objects.get_or_create(name=term)
 
 
 def create_subjects():
@@ -69,7 +69,7 @@ def create_subjects():
 
         # Create Subject objects for each subject_name in the subject_list
         for subject_name in subject_list:
-            Subject.objects.create(name=subject_name, subject_field=field)
+            Subject.objects.get_or_create(name=subject_name, subject_field=field)
 
 
 def create_disciplines():
@@ -194,18 +194,18 @@ def create_disciplines():
         for discipline_data in discipline_list:
             # Create a Discipline object with the provided name, description,
             # and the associated SubjectField instance
-            Discipline.objects.create(
+            Discipline.objects.get_or_create(
                 name=discipline_data["name"],
                 description=discipline_data["description"],
                 subject_field=subject_field,
             )
 
 
-def create_students():
+def create_students(num_students):
     """
     Create dummy Student objects.
     """
-    for _ in range(3):
+    for _ in range(num_students):
         # Create a Student object with fake name, unique entry code, and email
         Student.objects.create(
             name=fake.name(),
@@ -232,21 +232,23 @@ def create_assessment_scores():
             for session_term in session_terms:
                 # Iterate through each subject
                 for subject in subjects:
-                    # Generate random scores for continuous assessment and exam
-                    continuous_assessment = random.randint(0, 40)
-                    exam = random.randint(0, 60)
-                    total_score = continuous_assessment + exam
-
-                    # Create an AssessmentScore object with generated scores
-                    AssessmentScore.objects.create(
+                    # Check if an AssessmentScore object with the same combination of fields exists
+                    assessment_score, created = AssessmentScore.objects.get_or_create(
                         student=student,
                         grade_level=grade_level,
                         session_term=session_term,
                         subject=subject,
-                        continuous_assessment=continuous_assessment,
-                        exam=exam,
-                        total_score=total_score,
+                        defaults={
+                            "continuous_assessment": random.randint(0, 40),
+                            "exam": random.randint(0, 60),
+                        },
                     )
+
+                    # If the object was not created (it already exists), update the scores
+                    if not created:
+                        assessment_score.continuous_assessment = random.randint(0, 40)
+                        assessment_score.exam = random.randint(0, 60)
+                        assessment_score.save()
 
 
 class Command(BaseCommand):
@@ -256,15 +258,21 @@ class Command(BaseCommand):
 
     help = "Populate the database with initial data"
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "num_students", type=int, help="Number of students to create")
+
     def handle(self, *args, **kwargs):
         """
         Main function to create initial data.
         """
+        num_students = kwargs["num_students"]
+
         create_grade_levels()
         create_session_terms()
         create_subjects()
         create_disciplines()
-        create_students()
+        create_students(num_students)
         create_assessment_scores()
         self.stdout.write(
             self.style.SUCCESS("Database has been populated successfully!")
