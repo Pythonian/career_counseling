@@ -75,6 +75,9 @@ class Subject(models.Model):
         help_text="Select the subject field associated with this subject.",
     )
 
+    class Meta:
+        ordering = ["subject_field"]
+
     def __str__(self):
         """
         Return a string representation of the subject.
