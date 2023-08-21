@@ -135,9 +135,9 @@
     </div>
 
 
+    <script src="{% static 'scripts/jquery.js' %}"></script>
     <script src="{% static 'scripts/bootstrap.bundle.min.js' %}"></script>
-    <!-- Add this in your template head section -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'scripts/chart.js' %}"></script>
     {% block script %}{% endblock %}
     <script>
         window.onload = (event) => {
