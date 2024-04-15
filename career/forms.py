@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from .models import Student
 
@@ -14,7 +15,7 @@ class AccessForm(forms.Form):
         max_length=10,
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Enter access code",
+                "placeholder": _("Enter access code"),
                 "class": "form-control",
             }
         ),
@@ -32,7 +33,7 @@ class AccessForm(forms.Form):
             Student.objects.get(entry_code=entry_code)
         except Student.DoesNotExist:
             # If Student.DoesNotExist exception is raised, the code is invalid
-            raise forms.ValidationError("Invalid code")
+            raise forms.ValidationError(_("Invalid code"))
 
         # Return the valid entry code
         return entry_code
