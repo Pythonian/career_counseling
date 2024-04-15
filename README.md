@@ -12,7 +12,7 @@ This application is for students who are about to enter senior secondary school,
 
 - Python 3
 
-_Follow the steps below to get the program working on your system locally. These steps are tailored for users developing on Windows OS._
+_Follow the steps below to get the program working on your system locally. These steps are tailored for users developing on Linux OS._
 
 1. Clone the repo
    ```sh
@@ -24,23 +24,23 @@ _Follow the steps below to get the program working on your system locally. These
    ```
 3. Setup a Python virtual environment
    ```sh
-   python -m venv venv
+   make venv
    ```
 4. Activate the virtual environment
    ```sh
-   .\venv\Scripts\activate
+   . venv/bin/activate
    ```
 5. Install project requirements
    ```sh
-   pip install -r requirements.txt
+   make install
    ```
 6. Run database migrations
    ```sh
-   python manage.py migrate
+   make migrate
    ```
 7. Create an admin superuser
    ```sh
-   python manage.py createsuperuser
+   make admin
    ```
    _Note: Use `admin` for both the `username` and `password`, and skip entering the `email`. Also type `y` to bypass Password validation._
 8. Populate the database with fake data (Optional)
@@ -49,7 +49,7 @@ _Follow the steps below to get the program working on your system locally. These
    ```
 9. Run the development server
    ```sh
-   python manage.py runserver
+   make run
    ```
 10. Visit the URL in your browser
    ```sh
