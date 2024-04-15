@@ -34,7 +34,7 @@ def create_session_terms():
 
 def create_subjects():
     """
-    Create subject objects.
+    Create subject objects with their disciplines.
     """
     subjects = {
         "General": [
@@ -192,8 +192,7 @@ def create_disciplines():
 
         # Iterate through each discipline_data in the discipline_list
         for discipline_data in discipline_list:
-            # Create a Discipline object with the provided name, description,
-            # and the associated SubjectField instance
+            # Create a Discipline object and the associated SubjectField instance
             Discipline.objects.get_or_create(
                 name=discipline_data["name"],
                 description=discipline_data["description"],
@@ -206,7 +205,7 @@ def create_students(num_students):
     Create dummy Student objects.
     """
     for _ in range(num_students):
-        # Create a Student object with fake name, unique entry code, and email
+        # Create a Student object
         Student.objects.create(
             name=fake.name(),
             entry_code=fake.unique.random_number(digits=7),
