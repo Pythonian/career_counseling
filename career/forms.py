@@ -12,9 +12,7 @@ class AccessForm(forms.Form):
     entry_code = forms.CharField(
         label="",
         max_length=10,
-        widget=forms.TextInput(
-            attrs={"placeholder": "Enter access code", "class": "form-control"}
-        ),
+        widget=forms.TextInput(attrs={"placeholder": "Enter access code", "class": "form-control"}),
     )
 
     def clean_entry_code(self):

@@ -1,5 +1,5 @@
 Mathematics
-English 
+English
 Basic Science
 Basic Technology
 Information and Communications Technology
@@ -143,7 +143,7 @@ Ugochi
             3rd Term
                 Continous assessment - 30/40
                 Exam - 55/60
-                Total - 88/100 
+                Total - 88/100
         JS3:
             1st Term
                 Continous assessment - 37/40
@@ -156,7 +156,7 @@ Ugochi
             3rd Term
                 Continous assessment - 37/40
                 Exam - 50/60
-                Total - 87/100       
+                Total - 87/100
         Overall Average:
             87%
     English Studies
@@ -185,7 +185,7 @@ Ugochi
             3rd Term
                 Continous assessment - 30/40
                 Exam - 55/60
-                Total - 88/100 
+                Total - 88/100
         JS3:
             1st Term
                 Continous assessment - 37/40
@@ -198,6 +198,6 @@ Ugochi
             3rd Term
                 Continous assessment - 37/40
                 Exam - 50/60
-                Total - 87/100       
+                Total - 87/100
         Overall Average:
             87%

@@ -1,14 +1,16 @@
 import random
+
 from django.core.management.base import BaseCommand
 from faker import Faker
+
 from career.models import (
+    AssessmentScore,
     Discipline,
     GradeLevel,
     SessionTerm,
+    Student,
     Subject,
     SubjectField,
-    Student,
-    AssessmentScore,
 )
 
 fake = Faker()
@@ -258,8 +260,7 @@ class Command(BaseCommand):
     help = "Populate the database with initial data"
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            "num_students", type=int, help="Number of students to create")
+        parser.add_argument("num_students", type=int, help="Number of students to create")
 
     def handle(self, *args, **kwargs):
         """
@@ -273,6 +274,4 @@ class Command(BaseCommand):
         create_disciplines()
         create_students(num_students)
         create_assessment_scores()
-        self.stdout.write(
-            self.style.SUCCESS("Database has been populated successfully!")
-        )
+        self.stdout.write(self.style.SUCCESS("Database has been populated successfully!"))

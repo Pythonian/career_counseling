@@ -32,9 +32,7 @@ def home(request):
             return redirect("assessment")
         else:
             # Display a warning message for invalid access code
-            messages.warning(
-                request, "Invalid access code. Please crosscheck and try again"
-            )
+            messages.warning(request, "Invalid access code. Please crosscheck and try again")
     else:
         # Create a new AccessForm instance for GET requests
         form = AccessForm()
@@ -89,9 +87,7 @@ def assessment(request):
 
     # Calculate the total score for each entry in assessment_scores
     for entry in assessment_scores:
-        entry["total_score"] = (
-            entry["continuous_assessment_total"] + entry["exam_total"]
-        )
+        entry["total_score"] = entry["continuous_assessment_total"] + entry["exam_total"]
 
     # Calculate the subject totals for the student
     subject_totals = (
@@ -105,13 +101,9 @@ def assessment(request):
 
     # Group the assessment scores by grade level and subject
     assessment_scores_by_grade_subject = {}
-    for key, group in groupby(
-        student_assessment_scores, key=lambda x: (x.grade_level, x.subject)
-    ):
+    for key, group in groupby(student_assessment_scores, key=lambda x: (x.grade_level, x.subject)):
         grade_level, subject = key
-        assessment_scores_by_grade_subject.setdefault(grade_level, {}).setdefault(
-            subject, []
-        ).extend(group)
+        assessment_scores_by_grade_subject.setdefault(grade_level, {}).setdefault(subject, []).extend(group)
 
     # Get the Subject with the highest total score
     highest_subject = assessment_scores_by_grade_subject
@@ -120,9 +112,7 @@ def assessment(request):
             subject_totals,
             key=lambda subject: subject["total_score"],
         )
-        highest_subject["subject_field"] = Subject.objects.get(
-            name=highest_subject["subject__name"]
-        ).subject_field
+        highest_subject["subject_field"] = Subject.objects.get(name=highest_subject["subject__name"]).subject_field
     else:
         highest_subject = None
 
@@ -145,21 +135,16 @@ def assessment(request):
 
     # Get the Subject field of these subjects
     subject_fields_of_top_subjects = [
-        Subject.objects.get(name=subj["subject__name"]).subject_field
-        for subj in top_subjects
+        Subject.objects.get(name=subj["subject__name"]).subject_field for subj in top_subjects
     ]
 
     # Calculate the most common subject field if top_subjects is not empty
     most_common_subject_field = None
     if subject_fields_of_top_subjects:
-        most_common_subject_field = max(
-            set(subject_fields_of_top_subjects), key=subject_fields_of_top_subjects.count
-        )
+        most_common_subject_field = max(set(subject_fields_of_top_subjects), key=subject_fields_of_top_subjects.count)
 
     # List the related disciplines based on suggested Subject field
-    related_disciplines = Discipline.objects.filter(
-        subject_field=most_common_subject_field
-    )
+    related_disciplines = Discipline.objects.filter(subject_field=most_common_subject_field)
 
     template = "assessment.html"
     context = {

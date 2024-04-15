@@ -32,7 +32,7 @@
                         class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home' %}"><i class="fa-solid fa-home me-1"></i> Home</a></li>                        
+                        <li class="nav-item"><a class="nav-link text-white" href="{% url 'home' %}"><i class="fa-solid fa-home me-1"></i> Home</a></li>
                         {% if request.session.entry_code %}
                         <li class="nav-item"><a class="nav-link text-white"
                                 href="{% url 'assessment' %}"><i class="fa-solid fa-tachometer-alt me-1"></i> My Dashboard</a></li>
