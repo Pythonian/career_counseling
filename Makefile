@@ -42,6 +42,9 @@ test: venv # Run tests with coverage
 check: venv # Perform system check
 	@python manage.py check
 
+populatedb: venv # Populate the database with fake records
+	@python manage.py populate_db 5
+
 clean: ## Clean up the project of unneeded files
 	@rm -rf .cache
 	@rm -rf htmlcov coverage.xml .coverage
