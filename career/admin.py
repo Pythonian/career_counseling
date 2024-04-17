@@ -20,6 +20,7 @@ class AssessmentScoreInline(admin.TabularInline):
     """
 
     model = AssessmentScore
+    extra = 1
 
 
 @admin.register(Student)
@@ -32,6 +33,7 @@ class StudentAdmin(admin.ModelAdmin):
     inlines = [AssessmentScoreInline]
     # Sets the field which should be displayed on the admin change list page
     list_display = ["name", "entry_code", "email"]
+    search_fields = ["name", "email"]
 
     def save_model(self, request, obj, form, change):
         """
@@ -69,8 +71,9 @@ class DisciplineAdmin(admin.ModelAdmin):
     Custom admin configuration for the Discipline model.
     """
 
-    # Sets the field which should be displayed on the admin change list page
     list_display = ["name", "subject_field"]
+    search_fields = ["name", "subject_field"]
+    list_filter = ["subject_field"]
 
 
 # Register other models with default admin configuration
