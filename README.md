@@ -4,6 +4,8 @@
 
 **A Career Counselor Web Application for Junior Secondary School Students based on their academic performance from JSS 1-3**
 
+You can view the application demo [here](http://careercounseling.pythonanywhere.com/)
+
 ![Static Badge](https://img.shields.io/badge/Owner-Pythonian-green)
 ![GitHub last commit](https://img.shields.io/github/last-commit/pythonian/career_counseling)
 ![GitHub top language](https://img.shields.io/github/languages/top/pythonian/career_counseling)
@@ -52,7 +54,7 @@ This system operates by following these key steps:
 
 ### Installation
 
-_Follow the steps below to get the program working on your system locally. These steps are tailored for users developing on Linux OS._
+_Follow the steps below to get the program working on your system locally. These steps are tailored for users developing on Linux OS with Python installed already._
 
 1. Clone the repo
    ```sh
@@ -71,32 +73,38 @@ _Follow the steps below to get the program working on your system locally. These
    ```sh
    make install
    ```
-5. Run database migrations
+5. Copy and edit environment variables with desired values
+   ```sh
+   cp .env.example .env
+   ```
+6. Run database migrations
    ```sh
    make migrate
    ```
-6. Create an admin superuser
+7. Create an admin superuser
    ```sh
    make admin
    ```
    _Note: Use `admin` for both the `username` and `password`, and skip entering the `email`. Also type `y` to bypass Password validation._
-7. Populate the database with fake data (Optional)
+
+8. Populate the database with fake data (Optional)
    ```sh
    make populatedb
    ```
-8. Run the development server
+9. Run the development server
    ```sh
    make run
    ```
-9. Visit the URL in your browser
+10. Visit the URL in your browser
    ```sh
    127.0.0.1:8000
    ```
-   You can also visit the admin dashboard in a new tab and login with the credentials used in step 7.
+   You can also visit the admin dashboard in a new tab and login with the credentials created in step 7.
    ```sh
    127.0.0.1:8000/admin/
    ```
-   *include settings configuration*
+
+If you went ahead with the optional step (8), you can copy the access code for one of the students here `http://127.0.0.1:8000/admin/career/student/` and use it to access the student assessment dashboard.
 
 ## Running Tests
 
