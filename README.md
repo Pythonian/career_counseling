@@ -4,7 +4,9 @@
 
 **A Career Counselor Web Application for Junior Secondary School Students based on their academic performance from JSS 1-3**
 
-You can view the application demo [here](http://careercounseling.pythonanywhere.com/)
+Click on the following links to access the [website](http://careercounseling.pythonanywhere.com/) and the [admin](http://careercounseling.pythonanywhere.com/admin/)
+
+_You can use the credential "admin" for both the username and password to access the admin page._
 
 ![Static Badge](https://img.shields.io/badge/Owner-Pythonian-green)
 ![GitHub last commit](https://img.shields.io/github/last-commit/pythonian/career_counseling)
@@ -20,7 +22,6 @@ You can view the application demo [here](http://careercounseling.pythonanywhere.
 - [Running Tests](#running-tests)
 - [Contributing](#contributing)
 - [Support](#support)
-- [Changelog](#changelog)
 - [License](#license)
 - [Contact](#contact)
 
@@ -131,10 +132,6 @@ Don't forget to give the project a star! Thanks again!
 ## Support
 
 If you encounter any bug or problem while using the project, please [open an issue](https://github.com/Pythonian/career_counseling/issues)
-
-## Changelog
-
-For a detailed list of changes, see the [Changelog](docs/CHANGELOG.md).
 
 ## License
 
