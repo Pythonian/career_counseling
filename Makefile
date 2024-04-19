@@ -36,8 +36,7 @@ shell: venv # Start a Django shell
 	@python manage.py shell
 
 test: venv # Run tests with coverage
-	@coverage run manage.py test
-	@coverage html
+	@python manage.py test
 
 check: venv # Perform system check
 	@python manage.py check
