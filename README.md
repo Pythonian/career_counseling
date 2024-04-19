@@ -2,6 +2,8 @@
 
 ![Career Compass Hero Section](docs/hero.jpeg)
 
+**A Career Counselor Web Application for Junior Secondary School Students based on their academic performance from JSS 1-3**
+
 ![Static Badge](https://img.shields.io/badge/Owner-Pythonian-green)
 ![GitHub last commit](https://img.shields.io/github/last-commit/pythonian/career_counseling)
 ![GitHub top language](https://img.shields.io/github/languages/top/pythonian/career_counseling)
@@ -11,7 +13,7 @@
 - [About the Project](#about-the-project)
   * [How does it Work](#how-does-it-work)
 - [Getting Started](#getting-started)
-  * [Requirements](#requirements)
+  * [Built with](#built-with)
   * [Installation](#installation)
 - [Running Tests](#running-tests)
 - [Contributing](#contributing)
@@ -22,19 +24,31 @@
 
 ## About The Project
 
-**A Career Counselor Web Application for Junior Secondary School Students based on their academic performance from JSS 1-3**
+This application is for students who are about to enter Senior Secondary School. Using their grades from Junior Secondary School 1-3, the application helps them decide on what field of study to go for in **Science**, **Arts**, **Humanties** or **Commercials**, based on their academic performance.
 
-This application is for students who are about to enter senior secondary school, using their grades from JSS 1-3, help them decide on what area to go for **Science**, **Arts**, **Humanties** or **Commercials**, based on their academic performance.
+![Database Markup Language](docs/dbml.png)
 
 ### How does it Work
 
-An explanation of how the project works
+This system operates by following these key steps:
+
+1. Via the admin interface, a student object is created, and assessment scores, including continuous assessment and exam scores, are entered into the system.
+
+2. An access code which is generated will be sent to the email address of the student whose data was created.
+
+3. Using the access code sent, a student can access a dedicated page that presents analysis result, and identifies their top subjects with the suggested field of study and related disciplines.
+
+![Student Career Prediction](docs/prediction.jpeg)
 
 ## Getting Started
 
-### Requirements
+### Built with
 
-- Python 3
+- **Django**: This Python web framework is used for building the backend logic, including models for storing assessment data, and view to calculate to the assessment scores and recommend field of study.
+
+- **Chart.js**: This javascript library is utilized to visualize analysis results and present assessment score statistics in a graphical format.
+
+- **Bootstrap**: This CSS framework is employed to design the landing page and assessment dashboard of the student.
 
 ### Installation
 
