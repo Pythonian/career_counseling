@@ -2,15 +2,15 @@
 
 ![Career Compass Hero Section](docs/hero.jpeg)
 
+![Static Badge](https://img.shields.io/badge/Owner-Pythonian-green)
+![GitHub last commit](https://img.shields.io/github/last-commit/pythonian/career_counseling)
+![GitHub top language](https://img.shields.io/github/languages/top/pythonian/career_counseling)
+
 **A Career Counselor Web Application for Junior Secondary School Students based on their academic performance from JSS 1-3**
 
 Click on the following links to access the [website](http://careercounseling.pythonanywhere.com/) and the [admin](http://careercounseling.pythonanywhere.com/admin/)
 
 _You can use the credential "admin" for both the username and password to access the admin page._
-
-![Static Badge](https://img.shields.io/badge/Owner-Pythonian-green)
-![GitHub last commit](https://img.shields.io/github/last-commit/pythonian/career_counseling)
-![GitHub top language](https://img.shields.io/github/languages/top/pythonian/career_counseling)
 
 ## Contents
 

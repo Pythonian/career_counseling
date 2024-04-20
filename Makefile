@@ -45,6 +45,9 @@ check: venv # Perform system check
 populatedb: venv # Populate the database with fake records
 	@python manage.py populate_db 5
 
+collectstatic: venv # Run the collectstatic command
+	@python manage.py collectstatic
+
 clean: ## Clean up the project of unneeded files
 	@rm -rf .cache
 	@rm -rf htmlcov coverage.xml .coverage
